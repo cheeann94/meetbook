@@ -1,0 +1,23 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-meetbookamplifyapp-dev-231706-authRole",
+            "UnauthRoleArn": "arn:aws:iam::513256167019:role/amplify-meetbookamplifyapp-dev-231706-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::513256167019:role/amplify-meetbookamplifyapp-dev-231706-authRole",
+            "Region": "ap-southeast-1",
+            "DeploymentBucketName": "amplify-meetbookamplifyapp-dev-231706-deployment",
+            "UnauthRoleName": "amplify-meetbookamplifyapp-dev-231706-unauthRole",
+            "StackName": "amplify-meetbookamplifyapp-dev-231706",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:513256167019:stack/amplify-meetbookamplifyapp-dev-231706/809a6c70-987d-11eb-b716-0aece2197ad4",
+            "AmplifyAppId": "dhvd44u7ir8mb"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "dhvd44u7ir8mb",
+                    "type": "manual"
+                }
+            }
+        }
+    }
+}

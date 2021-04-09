@@ -1,0 +1,10 @@
+type Event @model {
+  id: ID!
+  name: String!
+  type: String!
+  venue: String!
+  hostName: String!
+  startDt: AWSDateTime!
+  endDt: AWSDateTime!
+  description: String
+}
