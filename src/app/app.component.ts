@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from './API.service';
+import { Hub } from 'aws-amplify';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { CreateEventDialogComponent } from './create-event-dialog/create-event-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +16,10 @@ export class AppComponent implements OnInit {
   public createForm: FormGroup = this.fb.group({});
 
   eventList: any[] = [];
+  userName: string = '';
+  viewEventList = false;
+  readonly SIGN_IN = 'signIn';
+  readonly SIGN_OUT = 'signOut';
 
   cols = [
     {field: 'name', header: 'Event Name'},
@@ -26,7 +33,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private api: APIService, 
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog: MatDialog
   ) { }
 
   async ngOnInit() {
@@ -57,15 +65,34 @@ export class AppComponent implements OnInit {
       this.eventList = [newEvent];
     }
   });
+
+    /* listen for user sign in or sign out */
+    Hub.listen('auth', (data) => {
+      this.onAuthEvent(data);           
+      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
+    })
   }
 
-  public onCreate(event: any) {
-    this.api.CreateEvent(event).then(event => {
-      console.log('item created!');
-      this.createForm.reset();
-    })
-    .catch(e => {
-      console.log('error creating event...', e);
-    });
+  onAuthEvent(data: any) {
+    if (this.SIGN_IN === data.payload.event) {
+      this.userName = data.payload.data.username;
+      this.viewEventList = true;
+    } else if (this.SIGN_OUT === data.payload.event) {
+      this.userName = '';
+      this.viewEventList = false;
+    }
   }
+
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      hostName: this.userName
+    }
+
+    this.dialog.open(CreateEventDialogComponent, dialogConfig);
+  }
+
 }

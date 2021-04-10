@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>{{ 'Create Event' }}</h2>
+
+<mat-dialog-content [formGroup]="createForm">
+  
+    <mat-form-field>
+        <input matInput placeholder="Event Name" formControlName="name">    
+    </mat-form-field><br>
+
+    <mat-form-field>
+        <input matInput placeholder="Event Type" formControlName="type">    
+    </mat-form-field><br>
+
+    <mat-form-field>
+        <input matInput placeholder="Venue" formControlName="venue">    
+    </mat-form-field><br>
+
+    <mat-form-field>
+        <input matInput placeholder="Start Date" formControlName="startDt">    
+    </mat-form-field><br>
+
+    <mat-form-field>
+        <input matInput placeholder="End Date" formControlName="endDt">    
+    </mat-form-field><br>
+
+    <mat-form-field>
+        <input matInput placeholder="Description" formControlName="description">    
+    </mat-form-field>
+ 
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button mat-primary"(click)="onCreate()">Save</button>
+    <button class="mat-raised-button"(click)="close()">Close</button>
+</mat-dialog-actions>

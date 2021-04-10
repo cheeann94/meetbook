@@ -11,10 +11,15 @@ import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TableModule} from 'primeng/table'
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { CreateEventDialogComponent } from './create-event-dialog/create-event-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CreateEventDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -26,9 +31,13 @@ import {TableModule} from 'primeng/table'
     ReactiveFormsModule,
     /**/
     BrowserAnimationsModule,
-    TableModule
+    TableModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [CreateEventDialogComponent]
 })
 export class AppModule { }

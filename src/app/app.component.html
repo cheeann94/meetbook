@@ -1,54 +1,47 @@
-<div class="form-body">
-  <form autocomplete="off" [formGroup]="createForm" (ngSubmit)="onCreate(createForm.value)">
-    <div>
-      <label>Event Name: </label>
-      <input type="text" formControlName="name" autocomplete="off">
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-ms-12 col-md-12 col-lg-12">
+      <amplify-authenticator>
+        <div style="width: 10%; float:right;">
+          <amplify-sign-out></amplify-sign-out>
+        </div>
+        <!-- previous code -->
+      </amplify-authenticator>
     </div>
-    <div>
-      <label>Type: </label>
-      <input type="text" formControlName="type" autocomplete="off">
+  </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-ms-12 col-md-12 col-lg-12">
+        <div [hidden]="!viewEventList">
+          <p-table [columns]="cols" [value]="eventList">
+            <ng-template pTemplate="caption">
+              <div style="text-align: center;">
+                <h2>Event List</h2><br>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-event let-columns="columns">
+                <tr>
+                    <td *ngFor="let col of columns">
+                        {{event[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
     </div>
-    <div>
-      <label>Venue: </label>
-      <input type="text" formControlName="venue" autocomplete="off">
+    <div class="row">
+      <div class="col-xs-12 col-ms-12 col-md-12 col-lg-12">
+        <div [hidden]="!viewEventList">
+          <button mat-stroked-button (click)="openDialog()">Create Event</button>
+        </div>
+      </div>
     </div>
-    <div>
-      <label>Host Name: </label>
-      <input type="text" formControlName="hostName" autocomplete="off">
-    </div>
-    <div>
-      <label>Start Date: </label>
-      <input type="text" formControlName="startDt" autocomplete="off">
-    </div>
-    <div>
-      <label>End Date: </label>
-      <input type="text" formControlName="endDt" autocomplete="off">
-    </div>
-    <div>
-      <label>Description: </label>
-      <input type="text" formControlName="description" autocomplete="off">
-    </div>
-    <button type="submit">Submit</button>
-  </form>
 </div>
-<br>
-<p-table [columns]="cols" [value]="eventList">
-  <ng-template pTemplate="caption">
-    Event List
-  </ng-template>
-  <br>
-  <ng-template pTemplate="header" let-columns>
-      <tr>
-          <th *ngFor="let col of columns">
-              {{col.header}}
-          </th>
-      </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-event let-columns="columns">
-      <tr>
-          <td *ngFor="let col of columns">
-              {{event[col.field]}}
-          </td>
-      </tr>
-  </ng-template>
-</p-table>
