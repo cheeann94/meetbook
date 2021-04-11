@@ -1,47 +1,7 @@
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12 col-ms-12 col-md-12 col-lg-12">
-      <amplify-authenticator>
-        <div style="width: 10%; float:right;">
-          <amplify-sign-out></amplify-sign-out>
-        </div>
-        <!-- previous code -->
-      </amplify-authenticator>
-    </div>
-  </div>
-
-    <div class="row">
-      <div class="col-xs-12 col-ms-12 col-md-12 col-lg-12">
-        <div [hidden]="!viewEventList">
-          <p-table [columns]="cols" [value]="eventList">
-            <ng-template pTemplate="caption">
-              <div style="text-align: center;">
-                <h2>Event List</h2><br>
-              </div>
-            </ng-template>
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th *ngFor="let col of columns">
-                        {{col.header}}
-                    </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-event let-columns="columns">
-                <tr>
-                    <td *ngFor="let col of columns">
-                        {{event[col.field]}}
-                    </td>
-                </tr>
-            </ng-template>
-          </p-table>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12 col-ms-12 col-md-12 col-lg-12">
-        <div [hidden]="!viewEventList">
-          <button mat-stroked-button (click)="openDialog()">Create Event</button>
-        </div>
-      </div>
-    </div>
+<div #auth>
+  <amplify-authenticator>
+    <amplify-sign-out></amplify-sign-out>
+  </amplify-authenticator>
 </div>
+
+<router-outlet></router-outlet>

@@ -9,17 +9,19 @@ import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 
 /* new form imports */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {TableModule} from 'primeng/table'
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { CreateEventDialogComponent } from './create-event-dialog/create-event-dialog.component';
+import { ViewEventListComponent } from './view-event-list/view-event-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateEventDialogComponent
+    CreateEventDialogComponent,
+    ViewEventListComponent
   ],
   imports: [
     BrowserModule,

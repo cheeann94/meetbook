@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from './API.service';
 import { Hub } from 'aws-amplify';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { CreateEventDialogComponent } from './create-event-dialog/create-event-dialog.component';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +19,6 @@ export class AppComponent implements OnInit {
 
   eventList: any[] = [];
   userName: string = '';
-  viewEventList = false;
   readonly SIGN_IN = 'signIn';
   readonly SIGN_OUT = 'signOut';
 
@@ -31,68 +32,34 @@ export class AppComponent implements OnInit {
     {field: 'description', header: 'Description'}
   ];
 
+  @ViewChild('auth') input: any;
+
   constructor(
     private api: APIService, 
     private fb: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
+    private zone: NgZone
   ) { }
 
   async ngOnInit() {
-    this.createForm = this.fb.group({
-      'name': ['', Validators.required],
-      'type': ['', Validators.required],
-      'venue': ['', Validators.required],
-      'hostName': ['', Validators.required],
-      'startDt': ['', Validators.required],
-      'endDt': ['', Validators.required],
-      'description': ['']
-    });
-
-     /* fetch events when app loads */
-     this.api.ListEvents().then(event => {
-      if (event.items) {
-        this.eventList = event.items;
-      }
-      console.log(this.eventList);
-    });
-
-    /* subscribe to new events being created */
-    this.api.OnCreateEventListener.subscribe((event: any) => {
-    const newEvent = event.value.data.onCreateEvent;
-    if (this.eventList) {
-      this.eventList = [newEvent, ...this.eventList];
-    } else {
-      this.eventList = [newEvent];
-    }
-  });
-
     /* listen for user sign in or sign out */
-    Hub.listen('auth', (data) => {
-      this.onAuthEvent(data);           
+    Hub.listen('auth', (data) => {         
       console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
+
+      if (this.SIGN_IN === data.payload.event) {
+        console.log('payload data: ' + data.payload.data);
+        this.userName = data.payload.data.username;
+        this.zone.run(() => {
+          this.router.navigate(['view-event-list', {userName: this.userName}]);
+          this.input.nativeElement.remove();
+        });
+      } else if (this.SIGN_OUT === data.payload.event) {
+        this.userName = '';
+        this.zone.run(() => {
+          this.router.navigate(['sign-in']);
+        });
+      }
     })
   }
-
-  onAuthEvent(data: any) {
-    if (this.SIGN_IN === data.payload.event) {
-      this.userName = data.payload.data.username;
-      this.viewEventList = true;
-    } else if (this.SIGN_OUT === data.payload.event) {
-      this.userName = '';
-      this.viewEventList = false;
-    }
-  }
-
-  openDialog() {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      hostName: this.userName
-    }
-
-    this.dialog.open(CreateEventDialogComponent, dialogConfig);
-  }
-
 }
